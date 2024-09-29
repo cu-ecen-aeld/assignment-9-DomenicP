@@ -8,7 +8,7 @@ SRC_URI = "git://git@github.com/cu-ecen-aeld/assignments-3-and-later-DomenicP.gi
 
 PV = "1.0+git${SRCPV}"
 # Set to reference a specific commit hash in your assignment repo
-SRCREV = "2ea59e9e81291837f94a2982200a75ee9d7fe346"
+SRCREV = "d478b697adea3607bd070c94afa00320bef6abb2"
 
 # This sets your staging directory based on WORKDIR, where WORKDIR is defined at
 # https://docs.yoctoproject.org/ref-manual/variables.html?highlight=workdir#term-WORKDIR
@@ -21,8 +21,18 @@ S = "${WORKDIR}/git/server"
 FILES:${PN} += "${bindir}/aesdsocket"
 # Customize these as necessary for any libraries you need for your application
 # (and remove comment)
-#TARGET_CFLAGS += ""
-#TARGET_LDFLAGS += ""
+TARGET_CFLAGS += "-std=c99 -Wall -Wextra -pedantic -Wunused -Wconversion"
+TARGET_LDFLAGS += "-lrt -pthread"
+
+# Ensure that libgcc_s.so.1 is present in the image. This is required by pthread_exit and should be
+# automatic but isn't working for some reason.
+# https://docs.yoctoproject.org/pipermail/yocto/2018-March/040227.html
+RDEPENDS:${PN} += "libgcc"
+
+inherit update-rc.d
+
+INITSCRIPT_PACKAGES = "${PN}"
+INITSCRIPT_NAME:${PN} = "aesdsocket-start-stop"
 
 do_install () {
 	# TODO: Install your binaries/scripts here.
@@ -33,5 +43,8 @@ do_install () {
 	# https://docs.yoctoproject.org/ref-manual/variables.html?highlight=workdir#term-S
 	# See example at https://github.com/cu-ecen-aeld/ecen5013-yocto/blob/ecen5013-hello-world/meta-ecen5013/recipes-ecen5013/ecen5013-hello-world/ecen5013-hello-world_git.bb
 	install -d "${D}${bindir}"
-	install -m 0755 "${S}/aesdsocket" "${D}${bindir}/aesdsocket"
+	install -m 0755 "${S}/aesdsocket" "${D}${bindir}"
+
+	install -d "${D}${INIT_D_DIR}"
+	install -m 0755 "${S}/aesdsocket-start-stop" "${D}${INIT_D_DIR}"
 }
