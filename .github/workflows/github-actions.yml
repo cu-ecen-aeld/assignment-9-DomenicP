@@ -6,7 +6,7 @@ on:
         branches:
             - '*'
 jobs:
-      full-test:  
+      full-test:
         runs-on: self-hosted
         steps:
           - uses: actions/checkout@v3
@@ -20,8 +20,14 @@ jobs:
             timeout-minutes: 600
             run: |
                docker run --rm \
-                 -v $SSH_AUTH_SOCK:/ssh-agent -e SSH_AUTH_SOCK=/ssh-agent \
+                 -v $SSH_AUTH_SOCK:/ssh-agent \
+                 -v $DL_DIR:/bitbake/downloads \
+                 -v $SSTATE_DIR:/bitbake/sstate \
+                 -e SSH_AUTH_SOCK=/ssh-agent \
                  -e GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" \
+                 -e BB_ENV_PASSTHROUGH_ADDITIONS="DL_DIR SSTATE_DIR" \
+                 -e DL_DIR=/bitbake/downloads \
+                 -e SSTATE_DIR=/bitbake/sstate \
                  -v ${GITHUB_WORKSPACE}:${GITHUB_WORKSPACE} \
                  cuaesd/aesd-autotest:assignment6-yocto \
                  --workdir=${GITHUB_WORKSPACE} \
@@ -34,6 +40,7 @@ jobs:
             timeout-minutes: 15
             run: |
                docker run --rm \
+                 -e SKIP_BUILD=1 \
                  -v ${GITHUB_WORKSPACE}:${GITHUB_WORKSPACE} \
                  cuaesd/aesd-autotest:assignment6-yocto \
                  --workdir=${GITHUB_WORKSPACE} \
