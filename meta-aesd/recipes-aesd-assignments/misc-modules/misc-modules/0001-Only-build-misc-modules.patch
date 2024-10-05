@@ -1,0 +1,23 @@
+From 07601322b11587c7698368ba9aaecaf1906b7929 Mon Sep 17 00:00:00 2001
+From: Domenic Rodriguez <domenicpaul@me.com>
+Date: Sat, 5 Oct 2024 17:44:01 -0400
+Subject: [PATCH] Only build misc-modules
+
+---
+ Makefile | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 7b08c49..0966da5 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,8 +1,5 @@
+ 
+-SUBDIRS =  misc-progs misc-modules \
+-           skull scull scullc scullp lddbus sculld scullv shortprint simple tty \
+-	   pci usb\
+-	   sbull snull short
++SUBDIRS =  misc-modules
+ 
+ all: subdirs
+ 
