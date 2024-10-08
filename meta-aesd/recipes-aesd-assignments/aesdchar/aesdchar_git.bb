@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 SRC_URI = "git://git@github.com/cu-ecen-aeld/assignments-3-and-later-DomenicP.git;protocol=ssh;branch=main"
 
 PV = "1.0+git${SRCPV}"
-SRCREV = "10442052329010157474c36f46d022037c3b85b8"
+SRCREV = "88981a292a6e8a10b421dc35c49a73345ce199e4"
 
 S = "${WORKDIR}/git/aesd-char-driver"
 
@@ -19,14 +19,13 @@ INITSCRIPT_PACKAGES = "${PN}"
 INITSCRIPT_NAME:${PN} = "aesdchar"
 
 FILES:${PN} += "${INIT_D_DIR}/aesdchar"
-FILES:${PN} += "${bindir}/aesdchar_load"
-FILES:${PN} += "${bindir}/aesdchar_unload"
+FILES:${PN} += "${sbindir}/aesdchar*"
 
 do_install:append() {
     install -d "${D}${INIT_D_DIR}"
     install -m 0755 "${S}/aesdchar" "${D}${INIT_D_DIR}"
 
-    install -d "${D}${bindir}"
-    install -m 0755 "${S}/aesdchar_load" "${D}${bindir}"
-    install -m 0755 "${S}/aesdchar_unload" "${D}${bindir}"
+    install -d "${D}${sbindir}"
+    install -m 0755 "${S}/aesdchar_load" "${D}${sbindir}"
+    install -m 0755 "${S}/aesdchar_unload" "${D}${sbindir}"
 }
