@@ -29,7 +29,7 @@ jobs:
                  -e DL_DIR=/bitbake/downloads \
                  -e SSTATE_DIR=/bitbake/sstate \
                  -v ${GITHUB_WORKSPACE}:${GITHUB_WORKSPACE} \
-                 cuaesd/aesd-autotest:assignment6-yocto \
+                 cuaesd/aesd-autotest:24-assignment6-yocto \
                  --workdir=${GITHUB_WORKSPACE} \
                  ./build.sh
           - name: Cleanup
