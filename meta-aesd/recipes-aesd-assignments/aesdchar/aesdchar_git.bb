@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 SRC_URI = "git://git@github.com/cu-ecen-aeld/assignments-3-and-later-DomenicP.git;protocol=ssh;branch=main"
 
 PV = "1.0+git${SRCPV}"
-SRCREV = "88981a292a6e8a10b421dc35c49a73345ce199e4"
+SRCREV = "e2c779043e7227fbccc3946a8fb18bf8691f3ed7"
 
 S = "${WORKDIR}/git/aesd-char-driver"
 
